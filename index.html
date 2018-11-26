@@ -1,14 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>renran</title>
 </head>
+
 <body>
-        <a href="blog/"></a>
-        
-        <h3>it's  blog test,he is a true.</h3>
+    <div class="backImg"></div>
+    <canvas id="can" width="300" height="300"></canvas>
+    <div class="mybox">
+        <img src="https://avatars0.githubusercontent.com/u/27182481?s=460&v=4" alt="" title="感谢关注!" id="headImg" class="headImg">
+        <ul id="ul" style="display: none;">
+            <li>
+                <a href="https://www.jianshu.com/u/8c896c3fadb8" title="简书">简书</a>
+            </li>
+            <li>
+                <a href="https://www.zhihu.com/people/zhou-yuan-21-19-14/activities" title="知乎">知乎</a>
+            </li>
+            <li>
+                <a href="https://github.com/zhouyuantest" title="github">git</a>
+            </li>
+            <!-- <li><a href="#" title="赏">赏</a></li> -->
+        </ul>
+    </div>
 </body>
+
 </html>
+<script>
+    // canvas
+    var can,ctx,width,height,dotArr,dotNum;
+    function cavInit(){
+        var that=this;
+             for(var i=0;i<dotNum;i++){
+                 var x=Math.ceil(Math.random()*width),
+                     y=Math.ceil(Math.random()*height),
+                     r=Math.random()*8+1;
+                 if (dotArr.length) {
+                     (function jiance() {
+                         var flag = that.ballSpacing(dotArr, x, y, r*(dotNum/20));  
+                         if (!flag) {
+                             x = Math.ceil(Math.random()*width),
+                             y = Math.ceil(Math.random()*height),
+                             r=Math.random()*10+9;
+                             jiance();
+                         } else { 
+                             return; 
+                         }
+                     })()
+                 }
+                var dot={
+                x:x,
+                y:y,
+                sx:0.4-Math.random()*0.8,
+                sy:0.4-Math.random()*0.8,
+                r:r,
+                color:"rgba(215,219,222,0.5)",
+            };
+            dotArr.push(dot);                 
+        }
+        console.log(dotArr.length);
+    }
+
+
+    function draw(){
+        ctx.clearRect(0,0,width,height);
+        for(var i=0;i<dotArr.length;i++){
+        var dot=dotArr[i];
+        ctx.beginPath();
+        ctx.fillStyle=dot.color;
+        ctx.arc(dot.x,dot.y,dot.r,0,Math.PI*2);
+        ctx.fill();
+        for(var j=i+1;j<dotArr.length;j++){
+            var distance=Math.sqrt(Math.pow(dot.x-dotArr[j].x,2)+Math.pow(dot.y-dotArr[j].y,2));//间距
+            if(distance<340){
+            ctx.beginPath();
+            ctx.lineWidth=0.4;
+            ctx.strokeStyle=dot.color; 
+            ctx.moveTo(dot.x,dot.y);
+            ctx.lineTo(dotArr[j].x,dotArr[j].y);
+            ctx.stroke();
+            }
+        }
+        if(dot.x>width||dot.x<0){
+            dot.sx=-dot.sx;
+        }
+        if(dot.y>height||dot.y<0){
+            dot.sy =-dot.sy;
+        }
+        dot.x+=dot.sx;
+        dot.y+=dot.sy ;
+        }
+        requestAnimationFrame(this.draw);
+
+    }
+
+    function ballSpacing(dotArr, x, y, r){
+        var flag = true;
+        for (var i = 0; i < dotArr.length; i++) {
+            var e = dotArr[i];
+            if (Math.abs(e.x - x) <= r + r && Math.abs(e.y - y) <= r + r) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+
+    function runshaner(){
+        can=document.getElementById("can");
+        ctx=can.getContext("2d"); 
+        //适配高分屏
+        width = innerWidth,
+        height = innerHeight;
+        if (window.devicePixelRatio) { 
+            can.style.width = width + "px"; 
+            can.style.height = height + "px";
+            can.height = height * window.devicePixelRatio;
+            can.width = width * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        dotArr=[];//小点 
+        dotNum=width*height/(240*120);//小点数量 
+        cavInit();
+        draw()
+    }
+    runshaner()
+</script>
+
+<script>
+    init()
+    function init() {
+        let img = document.getElementById('headImg')
+        img.onload = function () {
+            let ul = document.getElementById('ul')
+            ul.style.display = "block"
+        }
+    }
+</script>
+
+<style>
+     #can{
+      width:300px;
+      height:300px;
+      position:fixed;
+      left: 0;
+      top:0;
+      background:#f7fafc;
+      z-index:-1;
+    }
+    .backImg {
+        width: 100vw;
+        height: 100vh;
+        background: url('backimg.jpg') repeat 5px 5px;
+        opacity: 0.7;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: "Hiragino Sans GB", "Microsoft YaHei", "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .headImg {
+        border-radius: 50% 50%;
+    }
+
+    .mybox {
+        position: fixed;
+        transition: 50%;
+        text-align: center;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto auto;
+        width: 30%;
+        height: 30%;
+    }
+
+    ul {
+        text-align: center;
+        width: 100%;
+        animation: mymove 5s;
+    }
+
+    li:hover {
+        background-color: rgb(179, 179, 179);
+    }
+
+    li:hover>a {
+        color: rgb(251, 242, 112);
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    @keyframes mymove {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes mymove
+    /*Safari and Chrome*/
+        {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    ul>li {
+        text-align: center;
+        display: inline-block;
+        border-radius: 50% 50%;
+        background-color: aliceblue;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        margin: 0 10px;
+    }
+</style>
