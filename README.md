@@ -10,7 +10,10 @@
 
 
 关于我的项目:
-    cherry ui Test: 集window，web,android 自动化为一体的跨平台自动化工具。
-    tidyCss : vscode 插件，用于清理无效的css标签。
-    execed-image： c++编写的的可执行png文件，它很有趣。
-    vue-plug-dome ： vue 插件编写的实例，如果你需要它，那么它是可用的。
+    1.cherry ui Test: 集window，web,android 自动化为一体的跨平台自动化工具。
+
+    2.tidyCss : vscode 插件，用于清理无效的css标签。
+
+    3.execed-image： c++编写的的可执行png文件，它很有趣。
+    
+    4.vue-plug-dome ： vue 插件编写的实例，如果你需要它，那么它是可用的。
